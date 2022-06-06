@@ -1,4 +1,4 @@
-Tak the structure from here:
+Take the structure from here:
 
 https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-nginx/
 

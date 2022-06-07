@@ -1,15 +1,12 @@
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-from .models import db
+from .models import db, City
+import geoalchemy2.functions as func
 
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
 #db = SQLAlchemy(app)
 db.init_app(app)
-
-@app.route("/")
-def hello_world():
-    return jsonify(hello="world")
 
 @app.route("/<int:celsius>")
 def fahrenheit_from(celsius):
@@ -19,11 +16,7 @@ def fahrenheit_from(celsius):
     fahrenheit = round(fahrenheit, 3)  # Round to three decimal places
     return str(fahrenheit)
 
-@app.route("/vedi")
-def template_test():
-    return render_template('template.html', my_string="Wheeeee!", my_list=[0,1,2,3,4,5])
-
-@app.route('/map_ol')
+@app.route('/')
 def root_ol():
    markers=[
        {
@@ -33,3 +26,32 @@ def root_ol():
         }
    ]
    return render_template('map_ol.html', markers=markers)
+
+@app.route('/points', methods=['GET'])
+def get_all_points():
+
+    cities = City.query.all()
+    results = [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates":
+                        [
+                            db.session.scalar(func.ST_X(city.geo)),
+                            db.session.scalar(func.ST_Y(city.geo))
+                        ]
+                    },
+                    "properties":{
+                        "name": city.location,
+                        "id": city.point_id
+                    }  
+                } for city in cities
+    ]
+    
+    layer = {
+        "type":"FeatureCollection",
+        "features": results
+    }
+    return jsonify(layer)
+    

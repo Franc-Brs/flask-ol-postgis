@@ -27,6 +27,7 @@ def add_cities_hc():
 @click.argument("lon", nargs=1)
 def add_costum_city(name, lon, lat):
     City.add_city(name, lon, lat)
+    
 
 if __name__ == "__main__":
     cli()

@@ -13,7 +13,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-
+<!-- for axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>OpenLayers example</title>
   </head>
   <body>
@@ -38,6 +39,33 @@
                 })
             );
         {% endfor %}
+        
+        //style
+        var styles = {
+            Point: new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 1,
+                stroke: new ol.style.Stroke({
+                  color: "rgba(17,158,76,0.8)", //#F3C35D
+                  width: 15
+                })
+              })
+            })
+        };
+
+        var styleFunction = function(feature) {
+            return styles[feature.getGeometry().getType()];
+        };
+          
+        axios.get('http://localhost:5000/points')
+            .then(response => {
+                console.log(response.data)
+                //L.geoJSON(response.data, {}).addTo(map);
+                const vectorSource = new ol.source.Vector({
+                    features: new ol.format.GeoJSON().readFeatures(response.data),
+                });
+            })
+        
     </script>
   </body>
 </html>

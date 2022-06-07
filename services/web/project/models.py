@@ -27,6 +27,14 @@ class City(db.Model):
     latitude = db.Column(db.Float)
     geo = db.Column(Geometry(geometry_type="POINT"))
 
+    def __init__(self, location, longitude, latitude, geo):
+        #self.point_id = point_id
+        self.location = location
+        self.longitude = longitude
+        self.latitude = latitude
+        self.geo = geo
+
+
     def __repr__(self):
         return "<City {name} ({lat}, {lon})>".format(
             name=self.location, lat=self.latitude, lon=self.longitude)
@@ -42,9 +50,9 @@ class City(db.Model):
 
         geo = 'POINT({} {})'.format(longitude, latitude)
         city = City(location=location,
-                           longitude=longitude,
-                           latitude=latitude,
-                          geo=geo)
+                    longitude=longitude,
+                    latitude=latitude,
+                    geo=geo)
 
         db.session.add(city)
         db.session.commit()

@@ -36,7 +36,7 @@ docker-compose exec web python manage.py costum_city <Name of the city> <lat in 
 ```
 For example:
 ```
-docker-compose exec web python manage.py costum_city <Milano 45.458561447284616 9.187270434306852
+docker-compose exec web python manage.py costum_city Milano 45.458561447284616 9.187270434306852
 ```
 After having created a record you can check the db with psql, access the cli:
 ```
@@ -63,4 +63,13 @@ I took data and db model from [Jennifer Blog](https://www.jennifergd.com/post/7/
 ## Other Useful Links
 * https://muetsch.io/serving-raster-data-from-postgis-as-wms-using-python-and-fastapi-or-flask.html
 * https://www.big-meter.com/opensource/en/61db085731176a72587a2584.html
- 
+* https://github.com/ryanj/flask-postGIS
+* https://github.com/cimox/python-leaflet-gis/blob/master/templates/index.html
+* https://geo.rocks/post/leaflet-geoman-fastapi-postgis/
+* https://openlayers.org/en/latest/examples/layer-group.html
+* https://www.linode.com/docs/guides/how-to-create-a-gis-app-using-flask-stadia-maps-and-mongodb/
+* https://belmoussaoui.com/article/4-display-geojson-data-using-flask-and-mongodb
+* https://gist.github.com/gearbox/c4c82d959c06beb3f4eead854995e369
+* https://codesandbox.io/s/geojson-027t9?file=/index.js:241-290
+
+

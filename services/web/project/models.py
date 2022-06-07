@@ -5,7 +5,7 @@ from geoalchemy2 import Geometry
 
 db = SQLAlchemy()
 
-
+"""
 class User(db.Model):
     __tablename__ = "users"
 
@@ -15,7 +15,7 @@ class User(db.Model):
 
     def __init__(self, email):
         self.email = email
-
+"""
 class City(db.Model):
     """A city, including its geospatial data. - thks https://www.jennifergd.com/post/7/"""
 

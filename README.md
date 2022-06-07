@@ -15,6 +15,10 @@ docker-compose up -d
 ```
 Now it should be possibile to navigate to http://localhost:5000/map_ol and see something like this:
 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79576081/172322299-5311ec66-a5d5-4f5c-812c-da6d19209e55.png" height="400">
+</p>
+
 Useful links for Openlayers:
 * https://openlayers.org/en/latest/doc/quickstart.html
 * https://openstreetmap.be/en/projects/howto/openlayers.html

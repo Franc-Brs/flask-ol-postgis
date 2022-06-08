@@ -1,8 +1,15 @@
 # 🚩 Table of Contents
+- [Brief description](#brief-description)
 - [Required](#required)
 - [Quickstart](#quickstart)
 - [Test data](#test-data)
 - [Other Useful Links](#other-useful-links)
+## Brief description
+Basic stack to build a really simple webgis:
+* Flask as a backend
+* Postgres/Postgis as database
+* Openlayers for displaying the data
+Everything is dockerized; it is, by the way, just a 🧪 test 🧪.
 ## Required
 * Docker
 * Docker-compose
@@ -71,5 +78,10 @@ I took data and db model from [Jennifer Blog](https://www.jennifergd.com/post/7/
 * https://belmoussaoui.com/article/4-display-geojson-data-using-flask-and-mongodb
 * https://gist.github.com/gearbox/c4c82d959c06beb3f4eead854995e369
 * https://codesandbox.io/s/geojson-027t9?file=/index.js:241-290
-
+* https://stackoverflow.com/questions/63188086/how-to-save-json-returned-from-axios-in-a-variable
+* https://github.com/sqlalchemy/sqlalchemy/discussions/7289
+* https://stackoverflow.com/questions/22698478/what-is-the-difference-between-the-declarative-base-and-db-model
+* https://stackoverflow.com/questions/22976445/how-do-i-declare-a-base-model-class-in-flask-sqlalchemy
+* https://flask.palletsprojects.com/en/2.1.x/patterns/sqlalchemy/
+* https://towardsdatascience.com/use-flask-and-sqlalchemy-not-flask-sqlalchemy-5a64fafe22a4
 

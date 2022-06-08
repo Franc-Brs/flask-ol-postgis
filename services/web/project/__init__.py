@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template, request
-from flask_sqlalchemy import SQLAlchemy
 from .models import db, City
 import geoalchemy2.functions as func
+import json
+
 
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
@@ -36,13 +37,12 @@ def get_all_points():
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
-                        "coordinates":
-                        [
+                        "coordinates":[
                             db.session.scalar(func.ST_X(city.geo)),
                             db.session.scalar(func.ST_Y(city.geo))
                         ]
                     },
-                    "properties":{
+                    "properties": {
                         "name": city.location,
                         "id": city.point_id
                     }  
@@ -53,5 +53,28 @@ def get_all_points():
         "type":"FeatureCollection",
         "features": results
     }
+    return jsonify(layer)
+
+@app.route('/test', methods=['GET'])
+def test():
+
+    cities = City.query.all()
+    
+    results = [
+                {
+                    "type": "Feature",
+                    "geometry": json.loads(db.session.scalar(func.ST_AsGeoJSON(city.geo))),
+                    "properties": {
+                        "name": city.location,
+                        "id": city.point_id
+                    },
+                } for city in cities
+            ]
+
+    layer = {
+        "type":"FeatureCollection",
+        "features": results,
+    }
+    
     return jsonify(layer)
     

@@ -1,6 +1,6 @@
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
+#from sqlalchemy import func
 from geoalchemy2 import Geometry
 
 db = SQLAlchemy()

@@ -14,19 +14,6 @@ var map = new ol.Map({
     })
 });
 
-/*
-var layer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-        features: [
-            new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat([0, 0])),
-                name: 'Null Island - just test popup',
-            })
-        ]
-    })
-});
-map.addLayer(layer);
-*/
 // Pop-up
 const element = document.getElementById('popup');
 

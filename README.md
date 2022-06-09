@@ -3,7 +3,7 @@
 - [Required](#required)
 - [Quickstart](#quickstart)
 - [Test data](#test-data)
-- [Other Useful Links](#other-useful-links)
+- [Other Useful Links and TODO](#other-useful-links-and-todo)
 ## Brief description
 Basic stack to build a really simple webgis:
 * Flask as a backend
@@ -65,9 +65,17 @@ The ouput should be something similiar:
         6 | New York City |          -73.9603 |            40.7666 | 01010000005396218E757D52C08A8EE4F21F624440
         7 | Milano        | 9.187270434306852 | 45.458561447284616 | 010100000017B60DE9E15F22409DA53924B2BA4640
 ```
-I took data and db model from [Jennifer Blog](https://www.jennifergd.com/post/7/). Only a [reminder](https://stackoverflow.com/questions/9692962/flask-sqlalchemy-import-context-issue/9695045#9695045)
+I took data and db model from [Jennifer Blog](https://www.jennifergd.com/post/7/). Only a [reminder](https://stackoverflow.com/questions/9692962/flask-sqlalchemy-import-context-issue/9695045#9695045).
 
-## Other Useful Links
+If the db is populated as explaind it should be possibile to see some points:
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79576081/172825755-f6872f15-c025-4ac0-a117-9ab17f6b3c62.png" height="400">
+</p>
+
+At the moment onlly points can be added (in OpenLayers), but the api expose every type of geometry as geoJSON.
+
+## Other Useful Links and TODO
 * https://muetsch.io/serving-raster-data-from-postgis-as-wms-using-python-and-fastapi-or-flask.html
 * https://www.big-meter.com/opensource/en/61db085731176a72587a2584.html
 * https://github.com/ryanj/flask-postGIS
@@ -84,4 +92,5 @@ I took data and db model from [Jennifer Blog](https://www.jennifergd.com/post/7/
 * https://stackoverflow.com/questions/22976445/how-do-i-declare-a-base-model-class-in-flask-sqlalchemy
 * https://flask.palletsprojects.com/en/2.1.x/patterns/sqlalchemy/
 * https://towardsdatascience.com/use-flask-and-sqlalchemy-not-flask-sqlalchemy-5a64fafe22a4
+* https://www.flother.is/til/postgis-geojson/
 

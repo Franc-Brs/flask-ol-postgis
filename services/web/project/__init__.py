@@ -3,6 +3,7 @@ from .models import db, City
 import geoalchemy2.functions as func
 import json
 
+from sqlalchemy.orm import registry
 
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
@@ -28,24 +29,17 @@ def root_ol():
    ]
    return render_template('map_ol.html', markers=markers)
 
-@app.route('/points', methods=['GET'])
+@app.route('/points_geom', methods=['GET'])
 def get_all_points():
-
+    """
+    only geometries 
+    """
     cities = City.query.all()
     results = [
                 {
                     "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates":[
-                            db.session.scalar(func.ST_X(city.geo)),
-                            db.session.scalar(func.ST_Y(city.geo))
-                        ]
-                    },
-                    "properties": {
-                        "name": city.location,
-                        "id": city.point_id
-                    }  
+                    "geometry": json.loads(db.session.scalar(func.ST_AsGeoJSON(city.geo))),
+                    "properties": {}  
                 } for city in cities
     ]
     
@@ -53,23 +47,18 @@ def get_all_points():
         "type":"FeatureCollection",
         "features": results
     }
+
     return jsonify(layer)
 
-@app.route('/test', methods=['GET'])
+@app.route('/geojson', methods=['GET'])
 def test():
+     """
+    geojson 
+    """
+    # quick and dirty but I was in a hurry
+    query_geo= db.engine.execute(f"SELECT ST_AsGeoJSON(t.*) FROM {City.__tablename__} AS t;")
 
-    cities = City.query.all()
-    
-    results = [
-                {
-                    "type": "Feature",
-                    "geometry": json.loads(db.session.scalar(func.ST_AsGeoJSON(city.geo))),
-                    "properties": {
-                        "name": city.location,
-                        "id": city.point_id
-                    },
-                } for city in cities
-            ]
+    results = [ json.loads((row[0])) for row in query_geo ]
 
     layer = {
         "type":"FeatureCollection",
@@ -77,4 +66,3 @@ def test():
     }
     
     return jsonify(layer)
-    

@@ -3,7 +3,7 @@ from .models import db, City
 import geoalchemy2.functions as func
 import json
 
-from sqlalchemy.orm import registry
+from sqlalchemy import select
 
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
@@ -52,13 +52,17 @@ def get_all_points():
 
 @app.route('/geojson', methods=['GET'])
 def test():
-     """
+    """
     geojson 
     """
     # quick and dirty but I was in a hurry
-    query_geo= db.engine.execute(f"SELECT ST_AsGeoJSON(t.*) FROM {City.__tablename__} AS t;")
+    #query_geo= db.engine.execute(f"SELECT ST_AsGeoJSON(t.*) FROM {City.__tablename__} AS t;")
+    #results = [ json.loads((row[0])) for row in query_geo ]
+    
+    select_stmt = select([func.ST_AsGeoJSON(City, 'geo')])
+    query_all = db.engine.execute(select_stmt).scalars().all()
 
-    results = [ json.loads((row[0])) for row in query_geo ]
+    results = [ json.loads(row) for row in query_all ]
 
     layer = {
         "type":"FeatureCollection",

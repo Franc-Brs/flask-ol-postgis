@@ -76,32 +76,25 @@ def test():
     return jsonify(layer)
 
 
-@app.route('/upload', methods=['POST','GET'])
-def upload_file():
+@app.route('/uploads', methods=['POST','GET'])
+def uploads_file():
     
     if request.method == 'POST':
-        # check if the post request has the file part
-        #files = request.files.getlist("file[]")
-        #for f in files:
-        #    print(f)
         
-        if 'file' not in request.files:
+        if 'files[]' not in request.files:
             flash('No file part')
             return redirect(request.url)
           
-        file = request.files['file']
-        if file.filename == '':
-            flash('No file selected for uploading')
-            return redirect(request.url)
-        
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash('File successfully uploaded')
-            return redirect('/upload')
-        else:
-            flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
-            return redirect(request.url)
+        files = request.files.getlist('files[]')
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                flash(f"{file.filename} successfully uploaded")
+            else:
+                flash(f"*** {file.filename} cannot be uploaded: allowed file types are {app.config['ALLOWED_EXTENSIONS']} ***")
     
-    return render_template('upload.html')
-
+        #flash('File(s) successfully uploaded')
+        return redirect('/uploads')
+    
+    return render_template('uploads.html')

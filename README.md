@@ -76,21 +76,6 @@ If the db is populated as explaind it should be possibile to see some points:
 At the moment onlly points can be added (in OpenLayers), but the api expose every type of geometry as geoJSON.
 
 ## Other Useful Links and TODO
-* https://muetsch.io/serving-raster-data-from-postgis-as-wms-using-python-and-fastapi-or-flask.html
-* https://www.big-meter.com/opensource/en/61db085731176a72587a2584.html
-* https://github.com/ryanj/flask-postGIS
-* https://github.com/cimox/python-leaflet-gis/blob/master/templates/index.html
-* https://geo.rocks/post/leaflet-geoman-fastapi-postgis/
-* https://openlayers.org/en/latest/examples/layer-group.html
-* https://www.linode.com/docs/guides/how-to-create-a-gis-app-using-flask-stadia-maps-and-mongodb/
-* https://belmoussaoui.com/article/4-display-geojson-data-using-flask-and-mongodb
-* https://gist.github.com/gearbox/c4c82d959c06beb3f4eead854995e369
-* https://codesandbox.io/s/geojson-027t9?file=/index.js:241-290
-* https://stackoverflow.com/questions/63188086/how-to-save-json-returned-from-axios-in-a-variable
-* https://github.com/sqlalchemy/sqlalchemy/discussions/7289
-* https://stackoverflow.com/questions/22698478/what-is-the-difference-between-the-declarative-base-and-db-model
-* https://stackoverflow.com/questions/22976445/how-do-i-declare-a-base-model-class-in-flask-sqlalchemy
-* https://flask.palletsprojects.com/en/2.1.x/patterns/sqlalchemy/
-* https://towardsdatascience.com/use-flask-and-sqlalchemy-not-flask-sqlalchemy-5a64fafe22a4
-* https://www.flother.is/til/postgis-geojson/
+
+
 

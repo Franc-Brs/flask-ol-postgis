@@ -12,3 +12,4 @@ class Config(object):
     if not os.path.isdir(UPLOAD_FOLDER):
         os.mkdir(UPLOAD_FOLDER)
     ALLOWED_EXTENSIONS = set(['shp', 'shx', 'prj', 'dbf'])
+    SECRET_KEY = "secret key"

@@ -6,9 +6,19 @@ from werkzeug.utils import secure_filename
 from sqlalchemy import select
 import os
 
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object("project.config.Config")
+    #db = SQLAlchemy(app)
+    db.init_app(app)
+
+    @app.route('/hello')
+    def hello():
+        return 'Hello, World!'
+    return app
+
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
-app.secret_key = "secret key"
 #db = SQLAlchemy(app)
 db.init_app(app)
 

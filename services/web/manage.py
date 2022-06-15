@@ -3,8 +3,6 @@ from flask.cli import FlaskGroup
 from project import create_app
 #from project.models import City
 import click
-#from flask_migrate import init, migrate, upgrade
-from project.users.models import db, User
 from project.api.models import City
 
 app = create_app()

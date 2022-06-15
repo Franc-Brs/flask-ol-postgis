@@ -3,6 +3,7 @@
 - [Required](#required)
 - [Quickstart](#quickstart)
 - [Test data](#test-data)
+- [File uploads](#file-uploads)
 - [Other Useful Links and TODO](#other-useful-links-and-todo)
 ## Brief description
 Basic stack to build a really simple webgis:
@@ -13,7 +14,6 @@ Everything is dockerized; it is, by the way, just a 🧪 test 🧪.
 ## Required
 * Docker
 * Docker-compose
-
 ## Quickstart
 Take the structure from [Michael Herman post](https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-nginx/), this is a simple test: not production ready! Read the post from Micheal Herman if you are interested in that, I tried to keep it simple.
 Clone the repository, to run the app: 
@@ -32,7 +32,6 @@ Useful links for Openlayers:
 * https://openlayers.org/en/latest/examples/icon.html
 
 At http://localhost:5000/api/point_geom and http://localhost:5000/api/geojson the points in the db should be available in form of geojson.
-
 ## Test data
 In order to populate the PostgreSQL/PostGIS db some hardcoded test data can be used.
 Once the containers are up, simply run:
@@ -87,7 +86,7 @@ You can navigate to http://localhost:5000/application/uploads upload a file or a
 
 ## Other Useful Links and TODO
 
-I tried to use Flask-Migrate but I had some issue with Postgis (Geometry column) table, I followed [this link](https://github.com/miguelgrinberg/Flask-Migrate/issues/18) and [this gist](https://gist.github.com/utek/6163250) and I modified `env.py` and `alembic.ini` accordingly.
+I tried to use Flask-Migrate but I had some issues with Postgis (Geometry column) table, I followed [this link](https://github.com/miguelgrinberg/Flask-Migrate/issues/18) and [this gist](https://gist.github.com/utek/6163250) and I modified `env.py` and `alembic.ini` accordingly.
 I also added one line to `script.py.mako`:
 ```python
 import geoalchemy2

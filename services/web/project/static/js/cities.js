@@ -18,7 +18,7 @@ const styleFunction = function (feature) {
 
 const retrievData = async () => {
   try {
-    const res = await axios.get('http://localhost:5000/points_geom');
+    const res = await axios.get('http://localhost:5000/api/point_geom');
     return res;
   } catch(error) {
     console.log(error);

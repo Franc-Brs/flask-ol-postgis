@@ -11,6 +11,8 @@ then
     echo "PostgreSQL started"
 fi
 
-python manage.py create_db
+#python manage.py create_db
+flask db migrate
+flask db upgrade
 
 exec "$@"

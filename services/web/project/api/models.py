@@ -1,21 +1,20 @@
-
-from flask_sqlalchemy import SQLAlchemy
-#from sqlalchemy import func
-from geoalchemy2 import Geometry
-
-db = SQLAlchemy()
+from project import db
 
 """
 class User(db.Model):
+
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
-    active = db.Column(db.Boolean(), default=True, nullable=False)
 
-    def __init__(self, email):
+    def __init__(self, username, email, *args, **kwargs):
+        self.username = username
         self.email = email
 """
+from geoalchemy2 import Geometry
+
 class City(db.Model):
     """A city, including its geospatial data. - thks https://www.jennifergd.com/post/7/"""
 

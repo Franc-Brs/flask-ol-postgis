@@ -1,110 +1,43 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
-from .models import db, City
-import geoalchemy2.functions as func
-import json
-from werkzeug.utils import secure_filename
-from sqlalchemy import select
 import os
 
-def create_app():
+from flask import Flask
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+
+from project.config import config
+
+
+# instantiate the extensions
+db = SQLAlchemy()
+migrate = Migrate()
+
+
+def create_app(config_name=None):
+    if config_name is None:
+        config_name = os.environ.get("FLASK_CONFIG", "development")
+
+    # instantiate the app
     app = Flask(__name__)
-    app.config.from_object("project.config.Config")
-    #db = SQLAlchemy(app)
+
+    # set config
+    app.config.from_object(config[config_name])
+
+    # set up extensions
     db.init_app(app)
+    migrate.init_app(app, db)
 
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    # new
+    # register blueprint
+    from project.api import api_blueprint
+    app.register_blueprint(api_blueprint, url_prefix="/api")
+
+    from project.main import main_blueprint
+    app.register_blueprint(main_blueprint, url_prefix="/application")
+
+
+    # shell context for flask cli
+    @app.shell_context_processor
+    def ctx():
+        return {"app": app, "db": db}
+
     return app
-
-app = Flask(__name__)
-app.config.from_object("project.config.Config")
-#db = SQLAlchemy(app)
-db.init_app(app)
-
-from .functions import allowed_file
-
-@app.route("/<int:celsius>")
-def fahrenheit_from(celsius):
-    """Convert Celsius to Fahrenheit degrees."""
-    
-    fahrenheit = float(celsius) * 9 / 5 + 32
-    fahrenheit = round(fahrenheit, 3)  # Round to three decimal places
-    return str(fahrenheit)
-
-@app.route('/maps')
-def root_ol():
-   markers=[
-       {
-        'lat':0,
-        'lon':0,
-        'popup':'Null Island - just test popup'
-        }
-   ]
-   return render_template('map_ol.html', markers=markers)
-
-@app.route('/points_geom', methods=['GET'])
-def get_all_points():
-    """
-    only geometries 
-    """
-    cities = City.query.all()
-    results = [
-                {
-                    "type": "Feature",
-                    "geometry": json.loads(db.session.scalar(func.ST_AsGeoJSON(city.geo))),
-                    "properties": {}  
-                } for city in cities
-    ]
-    
-    layer = {
-        "type":"FeatureCollection",
-        "features": results
-    }
-
-    return jsonify(layer)
-
-@app.route('/geojson', methods=['GET'])
-def test():
-    """
-    geojson 
-    """
-    # quick and dirty but I was in a hurry
-    #query_geo= db.engine.execute(f"SELECT ST_AsGeoJSON(t.*) FROM {City.__tablename__} AS t;")
-    #results = [ json.loads((row[0])) for row in query_geo ]
-    
-    select_stmt = select([func.ST_AsGeoJSON(City, 'geo')])
-    query_all = db.engine.execute(select_stmt).scalars().all()
-
-    results = [ json.loads(row) for row in query_all ]
-
-    layer = {
-        "type":"FeatureCollection",
-        "features": results,
-    }
-    
-    return jsonify(layer)
-
-
-@app.route('/uploads', methods=['POST','GET'])
-def uploads_file():
-    
-    if request.method == 'POST':
-        
-        if 'files[]' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-          
-        files = request.files.getlist('files[]')
-        for file in files:
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                flash(f"{file.filename} successfully uploaded")
-            else:
-                flash(f"*** {file.filename} cannot be uploaded: allowed file types are {app.config['ALLOWED_EXTENSIONS']} ***")
-    
-        #flash('File(s) successfully uploaded')
-        return redirect('/uploads')
-    
-    return render_template('uploads.html')

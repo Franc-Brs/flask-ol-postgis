@@ -1,17 +1,14 @@
 
 from flask.cli import FlaskGroup
-
-from project import app, db
-from project.models import City
+from project import create_app
+#from project.models import City
 import click
+#from flask_migrate import init, migrate, upgrade
+from project.users.models import db, User
+from project.api.models import City
 
+app = create_app()
 cli = FlaskGroup(app)
-
-@cli.command("create_db")
-def create_db():
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
 
 @cli.command("random_data")
 def add_cities_hc():
@@ -27,8 +24,7 @@ def add_cities_hc():
 @click.argument("lat", nargs=1)
 @click.argument("lon", nargs=1)
 def add_costum_city(name, lon, lat):
-    City.add_city(name, lon, lat)
-    
+    City.add_city(name, lon, lat)   
 
 if __name__ == "__main__":
     cli()

@@ -32,9 +32,9 @@ def uploads_file():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-                flash(f"{file.filename} successfully uploaded")
+                flash(f"{file.filename} successfully uploaded", 'info')
             else:
-                flash(f"*** {file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']} ***")
+                flash(f"{file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']}",'warning')
     
         return redirect(request.url)
     

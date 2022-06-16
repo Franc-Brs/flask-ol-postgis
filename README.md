@@ -84,6 +84,12 @@ You can navigate to http://localhost:5000/application/uploads upload a file or a
 <img src="https://user-images.githubusercontent.com/79576081/173757730-832d224a-9cf8-4130-aaa2-4135de0882a4.png" height="250">
 </p>
 
+When you try to upload a file with different extension from `shp`, `shx`, `prj`, `dbf` (edit `services\web\project\config.py` if other exstensiona re neede) a message like this should appear:
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79576081/173872974-da017b44-44e4-4eed-beed-75fc49f6616e.png" height="380">
+</p>
+
 ## Other Useful Links and TODO
 
 I tried to use Flask-Migrate but I had some issues with Postgis (Geometry column) table, I followed [this link](https://github.com/miguelgrinberg/Flask-Migrate/issues/18) and [this gist](https://gist.github.com/utek/6163250) and I modified `env.py` and `alembic.ini` accordingly.

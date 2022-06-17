@@ -20,7 +20,7 @@ Clone the repository, to run the app:
 ```
 docker-compose up -d
 ```
-Now it should be possibile to navigate to http://localhost:5000/maps/ and see something like this:
+Now it should be possibile to navigate to http://localhost:5000/application/maps and see something like this:
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/79576081/172322299-5311ec66-a5d5-4f5c-812c-da6d19209e55.png" height="400">

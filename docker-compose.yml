@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   web:
+    container_name: web
     build: ./services/web
     command: python manage.py run -h 0.0.0.0
     volumes:
@@ -12,6 +13,7 @@ services:
       - ./.env.dev
     restart: unless-stopped
   db:
+    container_name: db
     #image: postgres:13-alpine
     #image: kartoza/postgis:14-3.2
     image: postgis/postgis:13-master

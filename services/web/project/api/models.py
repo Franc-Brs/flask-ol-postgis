@@ -24,7 +24,7 @@ class City(db.Model):
     location = db.Column(db.String(30))
     longitude = db.Column(db.Float)
     latitude = db.Column(db.Float)
-    geo = db.Column(Geometry(geometry_type="POINT"))
+    geo = db.Column(Geometry(geometry_type="POINT", spatial_index=True))
 
     def __init__(self, location, longitude, latitude, geo):
         #self.point_id = point_id

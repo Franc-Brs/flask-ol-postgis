@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b7eff02e731b
+Revision ID: e29c8689264d
 Revises: 
-Create Date: 2022-06-15 07:25:09.525549
+Create Date: 2022-06-21 19:50:46.570151
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import geoalchemy2
 
 
 # revision identifiers, used by Alembic.
-revision = 'b7eff02e731b'
+revision = 'e29c8689264d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,7 +24,7 @@ def upgrade():
     sa.Column('location', sa.String(length=30), nullable=True),
     sa.Column('longitude', sa.Float(), nullable=True),
     sa.Column('latitude', sa.Float(), nullable=True),
-    sa.Column('geo', geoalchemy2.types.Geometry(geometry_type='POINT', from_text='ST_GeomFromEWKT', name='geometry'), nullable=True),
+    sa.Column('geo', geoalchemy2.types.Geometry(geometry_type='POINT', spatial_index=False, from_text='ST_GeomFromEWKT', name='geometry'), nullable=True),
     sa.PrimaryKeyConstraint('point_id')
     )
     # ### end Alembic commands ###

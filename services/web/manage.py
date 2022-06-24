@@ -1,11 +1,12 @@
 
 from flask.cli import FlaskGroup
-from project import create_app
+from project import create_app, ext_celery
 #from project.models import City
 import click
 from project.api.models import City
 
 app = create_app()
+celery = ext_celery.celery
 cli = FlaskGroup(app)
 
 @cli.command("random_data")

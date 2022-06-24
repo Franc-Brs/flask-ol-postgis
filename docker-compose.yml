@@ -4,28 +4,66 @@ services:
   web:
     container_name: web
     build: ./services/web
-    command: python manage.py run -h 0.0.0.0
+    #command: python manage.py run -h 0.0.0.0
+    #command: /entrypoint.sh
     volumes:
       - ./services/web/:/usr/src/app/
     ports:
       - 5000:5000
     env_file:
       - ./.env.dev
+    environment:
+      IS_FLASK: "True"
     restart: unless-stopped
+    depends_on:
+      - redis
+      - db
+    networks:
+      default:
+        aliases:
+          - ${WEB_NET_ALIAS}
+
   db:
     container_name: db
-    #image: postgres:13-alpine
-    #image: kartoza/postgis:14-3.2
     image: postgis/postgis:13-master
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-      #- ./data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=hello_flask
       - POSTGRES_PASSWORD=hello_flask
       - POSTGRES_DB=hello_flask_dev
-    #ports:
-    #  - "5436:5432"
     restart: unless-stopped
+    networks:
+      default:
+        aliases:
+          - ${DB_NET_ALIAS}
+  
+  worker:
+    container_name: worker
+    build: ./services/web
+    #command: celery -A manage.celery worker --loglevel=info
+    environment:
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+    depends_on:
+      - redis
+    volumes:
+      - ./services/web/:/usr/src/app/
+    env_file:
+      - ./.env.dev
+    networks:
+      default:
+        aliases:
+          - ${TASK_NET_ALIAS} 
+
+  redis:
+    container_name: redis
+    image: redis:6-alpine
+    restart: unless-stopped
+    networks:
+      default:
+        aliases:
+          - ${REDIS_NET_ALIAS}
+
 volumes:
   postgres_data:

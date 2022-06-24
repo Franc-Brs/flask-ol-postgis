@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 from flask import current_app
 from .functions import allowed_file
+from flask_log_request_id import current_request_id
 
 @main_blueprint.route('/maps')
 def root_ol():
@@ -37,5 +38,5 @@ def uploads_file():
                 flash(f"{file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']}",'warning')
     
         return redirect(request.url)
-    
+    flash(f"{current_request_id()}")
     return render_template('main/uploads.html')

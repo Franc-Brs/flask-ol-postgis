@@ -90,6 +90,8 @@ When you try to upload a file with different extension from `shp`, `shx`, `prj`,
 <img src="https://user-images.githubusercontent.com/79576081/173872974-da017b44-44e4-4eed-beed-75fc49f6616e.png" height="380">
 </p>
 
+The files are uploaded to a folder inside `upload` folder and named after the session, TODO the filename and path are also stored in a database table, after the file has been processed by celery task the folder and its content should be deleted.
+
 ## Other Useful Links and TODO
 
 I tried to use Flask-Migrate but I had some issues with Postgis (Geometry column) table, I followed [this link](https://github.com/miguelgrinberg/Flask-Migrate/issues/18) and [this gist](https://gist.github.com/utek/6163250) and I modified `env.py` and `alembic.ini` accordingly.

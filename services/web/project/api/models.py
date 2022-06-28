@@ -16,6 +16,7 @@ class User(db.Model):
 from geoalchemy2 import Geometry
 
 class City(db.Model):
+
     """A city, including its geospatial data. - thks https://www.jennifergd.com/post/7/"""
 
     __tablename__ = "cities"
@@ -67,3 +68,9 @@ class City(db.Model):
             city.geo = point
 
         db.session.commit()
+
+class File(db.Model):
+    __tablename__ = "file"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    fp = db.Column(db.String(264), unique=True) #absolute path to file

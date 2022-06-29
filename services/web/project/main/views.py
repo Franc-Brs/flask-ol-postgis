@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 from flask import current_app
 from .functions import allowed_file
+from project.main.tasks import divide
 from flask_log_request_id import current_request_id
 
 from project.api.models import db, File
@@ -38,12 +39,16 @@ def uploads_file():
                 filename = secure_filename(file.filename)
                 
                 os.mkdir(temp_path) if not os.path.isdir(temp_path) else None
-
-                file.save(os.path.join(temp_path, filename))
+                save_file_path= os.path.join(temp_path, filename)
+                file.save( save_file_path )
+                new_file = File(name=filename, fp=os.path.abspath(save_file_path))
+                db.session.add(new_file)
+                db.session.commit()
+                task = divide.delay(1, 2)
                 flash(f"{file.filename} successfully uploaded", 'info')
             else:
                 flash(f"{file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']}",'warning')
     
         return redirect(request.url)
-    #flash(f"{current_request_id()}")
+         
     return render_template('main/uploads.html')

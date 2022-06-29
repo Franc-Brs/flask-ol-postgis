@@ -68,6 +68,14 @@ The ouput should be something similiar:
 ```
 I took data and db model from [Jennifer Blog](https://www.jennifergd.com/post/7/). Only a [reminder](https://stackoverflow.com/questions/9692962/flask-sqlalchemy-import-context-issue/9695045#9695045).
 
+In order to delete table content, after accessing the database container in psql it's possibile to delete the content with:
+```
+hello_flask_dev=# truncate <table_name>;
+```
+For example:
+```
+hello_flask_dev=# truncate file;
+```
 If the db is populated as explaind it should be possibile to see some points:
 
 <p align="center">
@@ -90,7 +98,7 @@ When you try to upload a file with different extension from `shp`, `shx`, `prj`,
 <img src="https://user-images.githubusercontent.com/79576081/173872974-da017b44-44e4-4eed-beed-75fc49f6616e.png" height="380">
 </p>
 
-The files are uploaded to a folder inside `upload` folder and named after the session, TODO the filename and path are also stored in a database table, after the file has been processed by celery task the folder and its content should be deleted.
+The files are uploaded to a folder inside `upload` folder and named after the session, the filename and path are also stored in a database table (called `file`, check the `services/web/project/api/models.py`), TODO after the file has been processed by celery task the folder and its content should be deleted.
 
 ## Other Useful Links and TODO
 

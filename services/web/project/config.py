@@ -13,12 +13,10 @@ class BaseConfig:
         os.mkdir(UPLOAD_FOLDER)
     ALLOWED_EXTENSIONS = set(['shp', 'shx', 'prj', 'dbf'])
     SECRET_KEY = "secret key"
-    #CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://redis:6379/0")              # new
-    #CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
-    broker_url = os.environ.get("CELERY_BROKER_URL", "redis://redis:6379/0")
-    result_backend = os.environ.get("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
-
-
+    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://redis:6379/0")              # new
+    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
+    
+    
 class DevelopmentConfig(BaseConfig):
     """Development configuration"""
     DEBUG = True

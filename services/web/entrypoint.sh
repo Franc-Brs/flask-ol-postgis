@@ -15,9 +15,9 @@ if [ "$IS_FLASK" = "True" ] ; then
     flask db migrate
     flask db upgrade
 
-    python manage.py run -h 0.0.0.0
-else
-  celery -A manage.celery worker --loglevel=info
+    #python manage.py run -h 0.0.0.0
+#else
+#  celery -A manage.celery worker --loglevel=info
 fi
 
 

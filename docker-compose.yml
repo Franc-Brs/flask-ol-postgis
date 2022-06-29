@@ -1,19 +1,19 @@
-version: '3.8'
+version: '3'
 
 services:
   web:
     container_name: web
     build: ./services/web
-    #command: python manage.py run -h 0.0.0.0
+    command: python manage.py run -h 0.0.0.0
     #command: /entrypoint.sh
     volumes:
       - ./services/web/:/usr/src/app/
     ports:
       - 5000:5000
     env_file:
-      - ./.env.dev
+      - ./.env
     environment:
-      IS_FLASK: "True"
+      IS_FLASK: "True" #move into .env
     restart: unless-stopped
     depends_on:
       - redis
@@ -41,7 +41,7 @@ services:
   worker:
     container_name: worker
     build: ./services/web
-    #command: celery -A manage.celery worker --loglevel=info
+    command: celery -A manage.celery worker --loglevel=info
     environment:
       CELERY_BROKER_URL: ${CELERY_BROKER_URL}
       CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
@@ -49,8 +49,8 @@ services:
       - redis
     volumes:
       - ./services/web/:/usr/src/app/
-    env_file:
-      - ./.env.dev
+    #env_file:
+    #  - ./.env
     networks:
       default:
         aliases:

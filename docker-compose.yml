@@ -5,15 +5,12 @@ services:
     container_name: web
     build: ./services/web
     command: python manage.py run -h 0.0.0.0
-    #command: /entrypoint.sh
     volumes:
       - ./services/web/:/usr/src/app/
     ports:
       - 5000:5000
     env_file:
       - ./.env
-    environment:
-      IS_FLASK: "True" #move into .env
     restart: unless-stopped
     depends_on:
       - redis
@@ -49,8 +46,6 @@ services:
       - redis
     volumes:
       - ./services/web/:/usr/src/app/
-    #env_file:
-    #  - ./.env
     networks:
       default:
         aliases:

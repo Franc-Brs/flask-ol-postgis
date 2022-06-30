@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 989b839a92b5
+Revision ID: 94e2e540a40c
 Revises: 
-Create Date: 2022-06-28 22:15:07.167659
+Create Date: 2022-06-30 08:50:56.194855
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import geoalchemy2
 
 
 # revision identifiers, used by Alembic.
-revision = '989b839a92b5'
+revision = '94e2e540a40c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,6 +31,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('fp', sa.String(length=264), nullable=True),
+    sa.Column('status', sa.Enum('UPLOADED', 'SENT_TO_DB', 'FAILED', name='status_type'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('fp')
     )

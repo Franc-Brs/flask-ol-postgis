@@ -1,4 +1,6 @@
 from project import db
+import enum
+from sqlalchemy import Enum
 
 """
 class User(db.Model):
@@ -69,8 +71,14 @@ class City(db.Model):
 
         db.session.commit()
 
+class status_type(enum.Enum):
+    UPLOADED = 'UPLOADED'
+    SENT_TO_DB = 'SENT_TO_DB'
+    FAILED = 'FAILED'
+
 class File(db.Model):
     __tablename__ = "file"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     fp = db.Column(db.String(264), unique=True) #absolute path to file
+    status = db.Column(db.Enum(status_type))

@@ -5,10 +5,10 @@ from werkzeug.utils import secure_filename
 import os
 from flask import current_app
 from .functions import allowed_file
-from project.main.tasks import divide
+from project.main.tasks import divide # TODO delete 
 from flask_log_request_id import current_request_id
 
-from project.api.models import db, File
+from project.api.models import db, File, status_type
 
 @main_blueprint.route('/maps')
 def root_ol():
@@ -41,14 +41,17 @@ def uploads_file():
                 os.mkdir(temp_path) if not os.path.isdir(temp_path) else None
                 save_file_path= os.path.join(temp_path, filename)
                 file.save( save_file_path )
-                new_file = File(name=filename, fp=os.path.abspath(save_file_path))
+                new_file = File(name=filename, fp=os.path.abspath(save_file_path), status=status_type.UPLOADED)
                 db.session.add(new_file)
                 db.session.commit()
-                task = divide.delay(1, 2)
+                
                 flash(f"{file.filename} successfully uploaded", 'info')
             else:
                 flash(f"{file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']}",'warning')
-    
+
+        #it should trigger once all the files are uploaded and only if the folder containing the files exist # TODO delete 
+        task = divide.delay(1, 2) if os.path.isdir(temp_path) else None # TODO delete 
+
         return redirect(request.url)
          
     return render_template('main/uploads.html')

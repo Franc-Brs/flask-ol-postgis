@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 from flask import current_app
 from .functions import allowed_file
-from project.main.tasks import divide # TODO delete 
+from project.main.tasks import divide, import_in_db # TODO delete 
 from flask_log_request_id import current_request_id
 
 from project.api.models import db, File, status_type
@@ -50,8 +50,8 @@ def uploads_file():
                 flash(f"{file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']}",'warning')
 
         #it should trigger once all the files are uploaded and only if the folder containing the files exist # TODO delete 
-        task = divide.delay(1, 2) if os.path.isdir(temp_path) else None # TODO delete 
-
+        #task = divide.delay(1, 2) if os.path.isdir(temp_path) else None # TODO delete 
+        task = import_in_db.delay() if os.path.isdir(temp_path) else None # TODO delete 
         return redirect(request.url)
          
     return render_template('main/uploads.html')

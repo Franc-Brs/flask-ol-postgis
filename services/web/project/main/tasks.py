@@ -8,8 +8,6 @@ def divide(x, y):
 
 import geopandas as gpd
 from project.api.models import db, File
-#from project import db
-#from flask import current_app
 
 @shared_task
 def import_in_db():

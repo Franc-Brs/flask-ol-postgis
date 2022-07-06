@@ -19,3 +19,9 @@ form {
 .warning{
   color: #DC143C;
 }
+
+.error_upload{
+  color: #DC143C;
+  font-size: large;
+  font-weight: bold;
+}

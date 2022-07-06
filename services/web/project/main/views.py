@@ -4,7 +4,7 @@ from flask import render_template, request, flash, redirect
 from werkzeug.utils import secure_filename
 import os
 from flask import current_app
-from .functions import allowed_file
+from .functions import allowed_file, check_shp
 from project.main.tasks import divide, import_in_db # TODO delete 
 from flask_log_request_id import current_request_id
 
@@ -48,10 +48,15 @@ def uploads_file():
                 flash(f"{file.filename} successfully uploaded", 'info')
             else:
                 flash(f"{file.filename} cannot be uploaded: allowed file types are {current_app.config['ALLOWED_EXTENSIONS']}",'warning')
-
+        
         #it should trigger once all the files are uploaded and only if the folder containing the files exist # TODO delete 
         #task = divide.delay(1, 2) if os.path.isdir(temp_path) else None # TODO delete 
-        task = import_in_db.delay() if os.path.isdir(temp_path) else None # TODO delete 
+        if check_shp(temp_path):
+            task = import_in_db.delay() if os.path.isdir(temp_path) else None # TODO delete 
+        else:
+            flash(f"Some files has been missing in the upload (.shp, .dbf and .shx should be uploaded), \
+                    retry to upload all the necessary files", 'error_upload')
+
         return redirect(request.url)
          
     return render_template('main/uploads.html')

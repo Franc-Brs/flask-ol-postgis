@@ -54,6 +54,7 @@ def uploads_file():
         if check_shp(temp_path):
             task = import_in_db.delay() if os.path.isdir(temp_path) else None # TODO delete 
         else:
+            #TODO remove the folder if entering here
             flash(f"Some files has been missing in the upload (.shp, .dbf and .shx should be uploaded), \
                     retry to upload all the necessary files", 'error_upload')
 

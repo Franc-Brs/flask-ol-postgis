@@ -1,4 +1,5 @@
 from celery import shared_task
+import os 
 
 @shared_task
 def divide(x, y):
@@ -22,7 +23,9 @@ def import_in_db():
         shp_file = gpd.read_file(file.fp)
         dir_name = os.path.dirname(file.fp)
         #change column name in not-capitalized letters and name wihtout extension
-        shp_file.to_postgis(name=file.name,con=db.engine)
+        file_name_we = os.path.splitext(file.name)[0]
+        
+        shp_file.to_postgis(name=file_name_we,con=db.engine)
 
         file.status = status_type.SENT_TO_DB
 

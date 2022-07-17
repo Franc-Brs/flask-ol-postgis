@@ -34,7 +34,7 @@ def get_all_points():
 
 
 @api_blueprint.route('/geojson', methods=['GET'])
-def test():
+def complete_geojson_cities():
     
     # quick and dirty but I was in a hurry
     #query_geo= db.engine.execute(f"SELECT ST_AsGeoJSON(t.*) FROM {City.__tablename__} AS t;")
@@ -52,3 +52,14 @@ def test():
     
     return jsonify(layer)
 
+@api_blueprint.route('/geojsons/<new_file>', methods=['GET'])
+def complete_geojson(new_file):
+    
+    query_geo = db.engine.execute(f"select ST_AsGeoJSON(t.*) from {new_file} as t").scalars().all()
+    results = [ json.loads((row)) for row in query_geo ]
+
+    layer = {
+        "type":"FeatureCollection",
+        "features": results,
+    }
+    return jsonify(layer)

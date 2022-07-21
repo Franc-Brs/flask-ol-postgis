@@ -5,10 +5,11 @@ from werkzeug.utils import secure_filename
 import os
 from flask import current_app
 from .functions import allowed_file, check_shp
-from project.main.tasks import divide, import_in_db # TODO delete 
+from project.main.tasks import divide, import_in_db, delete_file # TODO delete 
 from flask_log_request_id import current_request_id
 
 from project.api.models import db, File, status_type
+from celery import chain
 
 @main_blueprint.route('/maps')
 def root_ol():
@@ -51,8 +52,9 @@ def uploads_file():
         
         #it should trigger once all the files are uploaded and only if the folder containing the files exist # TODO delete 
         #task = divide.delay(1, 2) if os.path.isdir(temp_path) else None # TODO delete 
-        if check_shp(temp_path):
-            task = import_in_db.delay() if os.path.isdir(temp_path) else None # TODO delete 
+        if check_shp(temp_path) and os.path.isdir(temp_path):
+            #task = import_in_db.delay() if os.path.isdir(temp_path) else None # TODO delete 
+            chain(import_in_db.s(), delete_file.s()).apply_async()
         else:
             #TODO remove the folder if entering here
             flash(f"Some files has been missing in the upload (.shp, .dbf and .shx should be uploaded), \
